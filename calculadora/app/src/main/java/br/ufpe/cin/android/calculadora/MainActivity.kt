@@ -2,12 +2,70 @@ package br.ufpe.cin.android.calculadora
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_main.*
+import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
+        if (savedInstanceState != null) {
+            text_calc.setText(savedInstanceState.getString("expression"))
+            text_info.text = savedInstanceState.getString("result")
+        }
+
+        // Insert information into the text_calc EditText
+        btn_0.setOnClickListener { text_calc.text.append((it as Button).text) }
+        btn_1.setOnClickListener { text_calc.text.append((it as Button).text) }
+        btn_2.setOnClickListener { text_calc.text.append((it as Button).text) }
+        btn_3.setOnClickListener { text_calc.text.append((it as Button).text) }
+        btn_4.setOnClickListener { text_calc.text.append((it as Button).text) }
+        btn_5.setOnClickListener { text_calc.text.append((it as Button).text) }
+        btn_6.setOnClickListener { text_calc.text.append((it as Button).text) }
+        btn_7.setOnClickListener { text_calc.text.append((it as Button).text) }
+        btn_8.setOnClickListener { text_calc.text.append((it as Button).text) }
+        btn_9.setOnClickListener { text_calc.text.append((it as Button).text) }
+        btn_Add.setOnClickListener      { text_calc.text.append((it as Button).text) }
+        btn_Subtract.setOnClickListener { text_calc.text.append((it as Button).text) }
+        btn_Multiply.setOnClickListener { text_calc.text.append((it as Button).text) }
+        btn_Divide.setOnClickListener   { text_calc.text.append((it as Button).text) }
+        btn_Dot.setOnClickListener      { text_calc.text.append((it as Button).text) }
+        btn_LParen.setOnClickListener   { text_calc.text.append((it as Button).text) }
+        btn_RParen.setOnClickListener   { text_calc.text.append((it as Button).text) }
+        btn_Power.setOnClickListener    { text_calc.text.append((it as Button).text) }
+
+        // Evaluate the expression
+        btn_Equal.setOnClickListener { evaluateExpression() }
+
+        // Clear the expression
+        btn_Clear.setOnClickListener { text_info.text = null; text_calc.text = null; }
+
+
+    }
+
+    fun evaluateExpression() {
+
+        try {
+            text_info.text = eval(text_calc.text.toString()).toString()
+        }
+        catch (e: Exception) {
+            Toast.makeText(this, R.string.invalid_operation, Toast.LENGTH_LONG).show()
+        }
+    }
+
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        outState.putString("expression", text_calc.text.toString())
+        outState.putString("result",     text_info.text.toString())
     }
 
 
